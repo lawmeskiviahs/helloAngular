@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'button[appSubmitButton]',
@@ -6,7 +6,6 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   imports: [],
   templateUrl: './submit-button.component.html',
   styleUrl: './submit-button.component.css',
-  encapsulation: ViewEncapsulation.None
 })
 export class SubmitButtonComponent {
 }

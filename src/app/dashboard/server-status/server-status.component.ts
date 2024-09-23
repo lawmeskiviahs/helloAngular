@@ -1,13 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-server-status',
   standalone: true,
   imports: [],
   templateUrl: './server-status.component.html',
-  styleUrl: './server-status.component.css'
+  styleUrl: './server-status.component.css',
+  host: {
+    id: 'status'
+  }
 })
-export class ServerStatusComponent {
+export class ServerStatusComponent implements OnInit {
 
-  currentStatus = 'online';
+  currentStatus: 'online' | 'offline' | 'unknown' = 'unknown';
+
+  constructor() {}
+
+  randomizeStatus() {
+    setInterval( () => {
+      const random = Math.random();
+      if( random < 0.5) {
+        this.currentStatus = 'online'
+      } else if ( random < 0.9 ) {
+        this.currentStatus = 'offline'
+      } else {
+        this.currentStatus = 'unknown'
+      }
+    }, 2000)
+  }
+
+  ngOnInit() {
+
+    this.randomizeStatus();
+  }
 }
