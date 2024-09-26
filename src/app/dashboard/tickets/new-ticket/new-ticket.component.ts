@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { SubmitButtonComponent } from '../../../shared/submit-button/submit-button.component';
 import { ControlComponent } from '../../../shared/control/control.component';
 import { TicketService } from '../ticket.service';
 import { FormsModule } from '@angular/forms';
-import { ticket } from '../model/ticket.model';
+import { Ticket } from '../model/ticket.model';
 
 @Component({
   selector: 'app-new-ticket',
@@ -13,23 +13,23 @@ import { ticket } from '../model/ticket.model';
   styleUrl: './new-ticket.component.css'
 })
 export class NewTicketComponent {
+  @ViewChild('form') ticketForm?: ElementRef<HTMLFormElement>;
+  @Output() submitTicket = new EventEmitter<{title: string, request: string}>();
+
+  enteredTitle: string = '';
+  enteredRequest: string = '';
 
   constructor(
-    private ticketService: TicketService
   ) {}
 
-  prepareTicketDataToSave(titleString: string, requestString: string): ticket {
-    const body: ticket = {
-      title: titleString,
-      request: requestString
-    }
-    return body
-  }
+  submitForm(): void {
 
-  submitForm(titleElement: HTMLInputElement, requestElement: HTMLTextAreaElement) {
-
-    this.ticketService.addTicket(this.prepareTicketDataToSave(titleElement.value, requestElement.value));
-    titleElement.value = '';
-    requestElement.value = '';
+    this.submitTicket.emit({
+      title: this.enteredTitle,
+      request: this.enteredRequest
+    });
+    // this.ticketForm?.nativeElement.reset();
+    this.enteredTitle = '';
+    this.enteredRequest = '';
   }
 }
